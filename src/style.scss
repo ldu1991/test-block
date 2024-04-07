@@ -1,0 +1,86 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-tt-test-block {
+    //background-color: #21759b;
+    //color: #fff;
+    padding: 0 30px 50px;
+    
+    .swiper {
+        margin-bottom: 40px;
+    }
+    
+    &__media {
+        width: 320px;
+        height: 200px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 13.4px 0 rgba(26, 50, 66, 0.17);
+        overflow: hidden;
+        position: relative;
+        
+        &:hover {
+            .wp-block-tt-test-block__media-footer {
+                opacity: 1;
+            }
+        }
+        
+        .components-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+        }
+        
+        &-upload.components-button {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        &-img.components-button {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            display: block;
+            
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+        
+        &-footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            opacity: 0;
+            display: flex;
+            gap: 20px;
+            padding: 15px;
+            transition: opacity .3s;
+            
+            .components-button {
+                flex-basis: 0;
+                flex-grow: 1;
+                max-width: 100%;
+                text-align: center;
+                display: block;
+                
+                &:not(.is-destructive) {
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+}

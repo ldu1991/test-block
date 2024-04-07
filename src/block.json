@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "tt/test-block",
+	"version": "0.1.0",
+	"title": "Test Block",
+	"category": "beyond-category",
+	"description": "Test block for vanilla gutenberg",
+	"example": {},
+	"attributes": {
+		"anchor": {
+			"type": "string"
+		},
+		"id": {
+			"type": "string"
+		},
+		"startingText": {
+			"type": "string",
+			"default": "Save the file, and you can now move on to the Editor."
+		},
+		"content": {
+			"type": "string"
+		},
+		"title": {
+			"type": "string"
+		},
+		"imageId": {
+			"type": "integer"
+		},
+		"imageObject": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"supports": {
+		"html": true,
+		"anchor": true
+	},
+	"textdomain": "test-block",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"viewScript": "file:./view.js"
+}
