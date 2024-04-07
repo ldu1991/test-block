@@ -21,7 +21,7 @@ const icon = (
 registerBlockType(metadata.name, {
     icon: icon,
     edit: ({clientId, attributes, setAttributes}) => {
-        const {anchor, image, title, content} = attributes;
+        const {anchor, image, title, content, items} = attributes;
         const blockId = `block-${clientId}`;
         setAttributes({id: anchor || blockId});
 
@@ -34,13 +34,6 @@ registerBlockType(metadata.name, {
         });
 
         //console.log(wp.data.select( 'core/rich-text' ).getFormatTypes())
-
-        const {mediaId, media} = useSelect(select => {
-            return {
-                mediaId: image,
-                media: select('core').getMedia(image)
-            }
-        }, [image]);
 
         return (
             <>
@@ -56,79 +49,112 @@ registerBlockType(metadata.name, {
 
                 <div {...blockProps}>
 
-                    <div className="wp-block-tt-test-block__item">
-                        <div className="wp-block-tt-test-block__item-media">
-                            <MediaUploadCheck>
-                                <MediaUpload
-                                    onSelect={(media) => {
-                                        setAttributes({image: media.id})
-                                    }}
-                                    allowedTypes={['image']}
-                                    value={image}
-                                    render={({open}) => (
-                                        <>
-                                            {!mediaId &&
-                                                <Button className="wp-block-tt-test-block__item-media-upload"
+                    {items.map((item, index) => (
+                        <div key={index} className="wp-block-tt-test-block__item">
+                            <div className="wp-block-tt-test-block__item-media">
+                                <MediaUploadCheck>
+                                    <MediaUpload
+                                        onSelect={(media) => {
+                                            const newItems = [...items];
+                                            newItems[index].image = media.id;
+                                            newItems[index].imageUrl = media.url;
+                                            setAttributes({ items: newItems });
+                                        }}
+                                        allowedTypes={['image']}
+                                        value={item.image}
+                                        render={({ open }) => (
+                                            <>
+                                                {!item.image && (
+                                                    <Button
+                                                        className="wp-block-tt-test-block__item-media-upload"
                                                         variant="link"
-                                                        onClick={open}>
-                                                    {__('Upload Image', 'copyright-date-block')}
-                                                </Button>
-                                            }
-                                            {!!mediaId && !media && <Spinner/>}
-                                            {!!media && media &&
-                                                <Button className="wp-block-tt-test-block__item-media-img" onClick={open}>
-                                                    <img src={media.source_url} alt=""/>
-                                                </Button>
-                                            }
-
-                                            {!!mediaId && media &&
-                                                <div className="wp-block-tt-test-block__item-media-footer">
-                                                    <Button variant="secondary" onClick={open}>
-                                                        {__('Replace', 'copyright-date-block')}
+                                                        onClick={open}
+                                                    >
+                                                        {__('Upload Image', 'copyright-date-block')}
                                                     </Button>
+                                                )}
+                                                {!!item.image && (
+                                                    <Button className="wp-block-tt-test-block__item-media-img" onClick={open}>
+                                                        <img src={item.imageUrl} alt="" />
+                                                    </Button>
+                                                )}
 
-                                                    <Button variant="primary"
+                                                {!!item.image && (
+                                                    <div className="wp-block-tt-test-block__item-media-footer">
+                                                        <Button variant="secondary" onClick={open}>
+                                                            {__('Replace', 'copyright-date-block')}
+                                                        </Button>
+
+                                                        <Button
+                                                            variant="primary"
                                                             onClick={() => {
-                                                                setAttributes({image: 0})
+                                                                const newItems = [...items];
+                                                                newItems[index].image = 0;
+                                                                setAttributes({ items: newItems });
                                                             }}
-                                                            isDestructive>
-                                                        {__('Remove', 'copyright-date-block')}
-                                                    </Button>
-                                                </div>
-                                            }
-                                        </>
-                                    )}
+                                                            isDestructive
+                                                        >
+                                                            {__('Remove', 'copyright-date-block')}
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </>
+                                        )}
+                                    />
+                                </MediaUploadCheck>
+                            </div>
+                            <div className="wp-block-tt-test-block__item-content">
+                                <RichText
+                                    tagName="div"
+                                    className="h6"
+                                    value={item.title}
+                                    onChange={(nextTitle) => {
+                                        const newItems = [...items];
+                                        newItems[index].title = nextTitle;
+                                        setAttributes({ items: newItems });
+                                    }}
+                                    allowedFormats={['core/bold', 'core/italic', 'core/link', 'core/text-color', 'core/subscript', 'core/superscript', 'core/strikethrough']}
+                                    placeholder="Enter heading..."
                                 />
-                            </MediaUploadCheck>
-                        </div>
 
-                        <div className="wp-block-tt-test-block__item-content">
-                            <RichText
-                                tagName="div"
-                                className="h6"
-                                value={title}
-                                onChange={(nextTitle) => {
-                                    setAttributes({
-                                        title: nextTitle,
-                                    });
-                                }}
-                                allowedFormats={['core/bold', 'core/italic', 'core/link', 'core/text-color', 'core/subscript', 'core/superscript', 'core/strikethrough']}
-                                placeholder="Enter heading..."
-                            />
+                                <RichText
+                                    tagName="p"
+                                    className="tt-test-paragraph"
+                                    value={item.content}
+                                    onChange={(nextContent) => {
+                                        const newItems = [...items];
+                                        newItems[index].content = nextContent;
+                                        setAttributes({ items: newItems });
+                                    }}
+                                    placeholder="Enter your text here..."
+                                />
+                            </div>
 
-                            <RichText
-                                tagName="p"
-                                className="tt-test-paragraph"
-                                value={content}
-                                onChange={(nextContent) => {
-                                    setAttributes({
-                                        content: nextContent,
-                                    });
+                            <Button
+                                variant="primary"
+                                onClick={() => {
+                                    const newItems = [...items];
+                                    newItems.splice(index, 1);
+                                    setAttributes({ items: newItems });
                                 }}
-                                placeholder="Enter your text here..."
-                            />
+                                isDestructive
+                            >
+                                {__('Remove Item', 'copyright-date-block')}
+                            </Button>
                         </div>
-                    </div>
+                    ))}
+
+                    <Button
+                        variant="primary"
+                        className="add-item-button"
+                        onClick={() => {
+                            setAttributes({
+                                items: [...items, { image: 0, title: '', content: '' }],
+                            });
+                        }}
+                    >
+                        {__('Add Item', 'copyright-date-block')}
+                    </Button>
 
                 </div>
             </>

@@ -55,7 +55,8 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
       anchor,
       image,
       title,
-      content
+      content,
+      items
     } = attributes;
     const blockId = `block-${clientId}`;
     setAttributes({
@@ -70,42 +71,37 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
 
     //console.log(wp.data.select( 'core/rich-text' ).getFormatTypes())
 
-    const {
-      mediaId,
-      media
-    } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_6__.useSelect)(select => {
-      return {
-        mediaId: image,
-        media: select('core').getMedia(image)
-      };
-    }, [image]);
     return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       ...blockProps
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }, items.map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      key: index,
       className: "wp-block-tt-test-block__item"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "wp-block-tt-test-block__item-media"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
       onSelect: media => {
+        const newItems = [...items];
+        newItems[index].image = media.id;
+        newItems[index].imageUrl = media.url;
         setAttributes({
-          image: media.id
+          items: newItems
         });
       },
       allowedTypes: ['image'],
-      value: image,
+      value: item.image,
       render: ({
         open
-      }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !mediaId && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !item.image && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         className: "wp-block-tt-test-block__item-media-upload",
         variant: "link",
         onClick: open
-      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upload Image', 'copyright-date-block')), !!mediaId && !media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Spinner, null), !!media && media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upload Image', 'copyright-date-block')), !!item.image && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         className: "wp-block-tt-test-block__item-media-img",
         onClick: open
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-        src: media.source_url,
+        src: item.imageUrl,
         alt: ""
-      })), !!mediaId && media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      })), !!item.image && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         className: "wp-block-tt-test-block__item-media-footer"
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         variant: "secondary",
@@ -113,8 +109,10 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
       }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Replace', 'copyright-date-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         variant: "primary",
         onClick: () => {
+          const newItems = [...items];
+          newItems[index].image = 0;
           setAttributes({
-            image: 0
+            items: newItems
           });
         },
         isDestructive: true
@@ -124,10 +122,12 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       tagName: "div",
       className: "h6",
-      value: title,
+      value: item.title,
       onChange: nextTitle => {
+        const newItems = [...items];
+        newItems[index].title = nextTitle;
         setAttributes({
-          title: nextTitle
+          items: newItems
         });
       },
       allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/text-color', 'core/subscript', 'core/superscript', 'core/strikethrough'],
@@ -135,14 +135,38 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
     }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
       tagName: "p",
       className: "tt-test-paragraph",
-      value: content,
+      value: item.content,
       onChange: nextContent => {
+        const newItems = [...items];
+        newItems[index].content = nextContent;
         setAttributes({
-          content: nextContent
+          items: newItems
         });
       },
       placeholder: "Enter your text here..."
-    })))));
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      variant: "primary",
+      onClick: () => {
+        const newItems = [...items];
+        newItems.splice(index, 1);
+        setAttributes({
+          items: newItems
+        });
+      },
+      isDestructive: true
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove Item', 'copyright-date-block')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      variant: "primary",
+      className: "add-item-button",
+      onClick: () => {
+        setAttributes({
+          items: [...items, {
+            image: 0,
+            title: '',
+            content: ''
+          }]
+        });
+      }
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Add Item', 'copyright-date-block'))));
   }
 });
 
@@ -274,7 +298,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"tt/test-block","version":"0.1.0","title":"Test Block","category":"beyond-category","description":"Test block for vanilla gutenberg","example":{},"attributes":{"anchor":{"type":"string"},"id":{"type":"string"},"startingText":{"type":"string","default":"Save the file, and you can now move on to the Editor."},"image":{"type":"integer"},"title":{"type":"string","default":"Robust features to achieve any commercial service"},"content":{"type":"string","default":"Manage the delivery of contracted preventative maintenance and inspection work"}},"supports":{"html":true,"anchor":true},"textdomain":"test-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"tt/test-block","version":"0.1.0","title":"Test Block","category":"beyond-category","description":"Test block for vanilla gutenberg","example":{},"attributes":{"anchor":{"type":"string"},"id":{"type":"string"},"startingText":{"type":"string","default":"Save the file, and you can now move on to the Editor."},"image":{"type":"integer"},"title":{"type":"string","default":"Robust features to achieve any commercial service"},"content":{"type":"string","default":"Manage the delivery of contracted preventative maintenance and inspection work"},"items":{"type":"array","default":[]}},"supports":{"html":true,"anchor":true},"textdomain":"test-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
 
 /***/ })
 

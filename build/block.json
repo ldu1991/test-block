@@ -28,6 +28,10 @@
     "content": {
       "type": "string",
       "default": "Manage the delivery of contracted preventative maintenance and inspection work"
+    },
+    "items": {
+      "type": "array",
+      "default": []
     }
   },
   "supports": {

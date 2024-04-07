@@ -9,6 +9,9 @@
  */
 .wp-block-tt-test-block {
   padding: 50px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .wp-block-tt-test-block .swiper {
   margin-bottom: 40px;

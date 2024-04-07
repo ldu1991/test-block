@@ -7,6 +7,9 @@
 
 .wp-block-tt-test-block {
     padding: 50px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     
     .swiper {
         margin-bottom: 40px;
