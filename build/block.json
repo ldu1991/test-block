@@ -18,18 +18,16 @@
       "type": "string",
       "default": "Save the file, and you can now move on to the Editor."
     },
-    "content": {
-      "type": "string"
-    },
-    "title": {
-      "type": "string"
-    },
-    "imageId": {
+    "image": {
       "type": "integer"
     },
-    "imageObject": {
-      "type": "object",
-      "default": {}
+    "title": {
+      "type": "string",
+      "default": "Robust features to achieve any commercial service"
+    },
+    "content": {
+      "type": "string",
+      "default": "Manage the delivery of contracted preventative maintenance and inspection work"
     }
   },
   "supports": {

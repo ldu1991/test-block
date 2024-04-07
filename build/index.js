@@ -44,9 +44,6 @@ const icon = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
 }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
   d: "M260.4 254.9 131.5 33.1a2.2 2.2 0 0 0 -3.8 0L.3 254.9A2.2 2.2 0 0 0 .3 257.1L129.1 478.9a2.2 2.2 0 0 0 3.8 0L260.4 257.1A2.2 2.2 0 0 0 260.4 254.9zm39.1-25.7a2.2 2.2 0 0 0 1.9 1.1h66.5a2.2 2.2 0 0 0 1.9-3.3L259.1 33.1a2.2 2.2 0 0 0 -1.9-1.1H190.7a2.2 2.2 0 0 0 -1.9 3.3zM511.7 254.9 384.9 33.1A2.2 2.2 0 0 0 383 32h-66.6a2.2 2.2 0 0 0 -1.9 3.3L440.7 256 314.5 476.7a2.2 2.2 0 0 0 1.9 3.3h66.6a2.2 2.2 0 0 0 1.9-1.1L511.7 257.1A2.2 2.2 0 0 0 511.7 254.9zM366 284.9H299.5a2.2 2.2 0 0 0 -1.9 1.1l-108.8 190.6a2.2 2.2 0 0 0 1.9 3.3h66.5a2.2 2.2 0 0 0 1.9-1.1l108.8-190.6A2.2 2.2 0 0 0 366 284.9z"
 }));
-function isObject(obj) {
-  return obj !== null && Object.getOwnPropertyNames(obj).length !== 0 && Object.getPrototypeOf(obj) === Object.prototype;
-}
 (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_3__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_10__.name, {
   icon: icon,
   edit: ({
@@ -56,18 +53,16 @@ function isObject(obj) {
   }) => {
     const {
       anchor,
-      startingText,
-      content,
+      image,
       title,
-      imageId,
-      imageObject
+      content
     } = attributes;
     const blockId = `block-${clientId}`;
     setAttributes({
       id: anchor || blockId
     });
     (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-      (0,_scripts__WEBPACK_IMPORTED_MODULE_7__["default"])(`#${blockId}`);
+      //Scripts(`#${blockId}`);
     }, []);
     let blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
       className: ['alignfull']
@@ -75,68 +70,78 @@ function isObject(obj) {
 
     //console.log(wp.data.select( 'core/rich-text' ).getFormatTypes())
 
-    console.log(isObject(imageObject));
     const {
       mediaId,
       media
     } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_6__.useSelect)(select => {
       return {
-        mediaId: imageId,
-        media: select('core').getMedia(imageId)
+        mediaId: image,
+        media: select('core').getMedia(image)
       };
-    }, [imageId]);
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.PanelBody, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'copyright-date-block')
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.TextControl, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Starting Text', 'copyright-date-block'),
-      value: startingText || '',
-      onChange: value => setAttributes({
-        startingText: value
-      })
-    }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    }, [image]);
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       ...blockProps
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "wp-block-tt-test-block__media"
+      className: "wp-block-tt-test-block__item"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wp-block-tt-test-block__item-media"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUploadCheck, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.MediaUpload, {
       onSelect: media => {
         setAttributes({
-          imageId: media.id
-        });
-        setAttributes({
-          imageObject: media
+          image: media.id
         });
       },
       allowedTypes: ['image'],
-      value: imageId,
+      value: image,
       render: ({
         open
       }) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, !mediaId && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-        className: "wp-block-tt-test-block__media-upload",
+        className: "wp-block-tt-test-block__item-media-upload",
         variant: "link",
         onClick: open
-      }, "Upload Image"), !!mediaId && !media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Spinner, null), !!media && media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-        className: "wp-block-tt-test-block__media-img",
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upload Image', 'copyright-date-block')), !!mediaId && !media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Spinner, null), !!media && media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+        className: "wp-block-tt-test-block__item-media-img",
         onClick: open
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
         src: media.source_url,
         alt: ""
       })), !!mediaId && media && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-        className: "wp-block-tt-test-block__media-footer"
+        className: "wp-block-tt-test-block__item-media-footer"
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         variant: "secondary",
         onClick: open
-      }, "Replace"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Replace', 'copyright-date-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         variant: "primary",
         onClick: () => {
           setAttributes({
-            imageId: 0
-          });
-          setAttributes({
-            imageObject: {}
+            image: 0
           });
         },
         isDestructive: true
-      }, "Remove")))
+      }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Remove', 'copyright-date-block'))))
+    }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wp-block-tt-test-block__item-content"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      tagName: "div",
+      className: "h6",
+      value: title,
+      onChange: nextTitle => {
+        setAttributes({
+          title: nextTitle
+        });
+      },
+      allowedFormats: ['core/bold', 'core/italic', 'core/link', 'core/text-color', 'core/subscript', 'core/superscript', 'core/strikethrough'],
+      placeholder: "Enter heading..."
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.RichText, {
+      tagName: "p",
+      className: "tt-test-paragraph",
+      value: content,
+      onChange: nextContent => {
+        setAttributes({
+          content: nextContent
+        });
+      },
+      placeholder: "Enter your text here..."
     })))));
   }
 });
@@ -269,7 +274,7 @@ module.exports = window["wp"]["i18n"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"tt/test-block","version":"0.1.0","title":"Test Block","category":"beyond-category","description":"Test block for vanilla gutenberg","example":{},"attributes":{"anchor":{"type":"string"},"id":{"type":"string"},"startingText":{"type":"string","default":"Save the file, and you can now move on to the Editor."},"content":{"type":"string"},"title":{"type":"string"},"imageId":{"type":"integer"},"imageObject":{"type":"object","default":{}}},"supports":{"html":true,"anchor":true},"textdomain":"test-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"tt/test-block","version":"0.1.0","title":"Test Block","category":"beyond-category","description":"Test block for vanilla gutenberg","example":{},"attributes":{"anchor":{"type":"string"},"id":{"type":"string"},"startingText":{"type":"string","default":"Save the file, and you can now move on to the Editor."},"image":{"type":"integer"},"title":{"type":"string","default":"Robust features to achieve any commercial service"},"content":{"type":"string","default":"Manage the delivery of contracted preventative maintenance and inspection work"}},"supports":{"html":true,"anchor":true},"textdomain":"test-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
 
 /***/ })
 
