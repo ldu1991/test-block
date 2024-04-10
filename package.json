@@ -15,6 +15,7 @@
 		"start": "wp-scripts start --webpack-copy-php"
 	},
 	"devDependencies": {
+		"@types/sortablejs": "^1.15.8",
 		"@wordpress/scripts": "^27.6.0"
 	},
 	"dependencies": {
@@ -24,6 +25,8 @@
 		"@wordpress/data": "^9.25.0",
 		"@wordpress/element": "^5.32.0",
 		"@wordpress/i18n": "^4.55.0",
-		"@wordpress/icons": "^9.46.0"
+		"@wordpress/icons": "^9.46.0",
+		"react-sortablejs": "^6.1.4",
+		"sortablejs": "^1.15.2"
 	}
 }

@@ -4,6 +4,7 @@ import {registerBlockType} from '@wordpress/blocks';
 import {useEffect, useState} from '@wordpress/element';
 import {ToolbarButton} from '@wordpress/components';
 import {ToolbarItem, MediaItem, ContentItem, Icon} from './components'
+import { ReactSortable } from "react-sortablejs";
 
 import './editor.scss';
 import './style.scss';
@@ -49,14 +50,22 @@ registerBlockType(metadata.name, {
 
                 <div {...blockProps}>
                     <div className="wp-block-tt-test-block__wrap">
-                        {items.map((item, index) => (
-                            <div key={index} className="wp-block-tt-test-block__item">
-                                <ToolbarItem index={index} items={items} setAttributes={setAttributes}/>
+                        <ReactSortable
+                            list={state}
+                            setList={setState}
+                            draggable=".wp-block-tt-test-block__item"
+                            direction="vertical"
+                            onChange={(evt) => {console.log(evt)}}
+                        >
+                            {state.map((item, index) => (
+                                <div key={index} className="wp-block-tt-test-block__item">
+                                    <ToolbarItem index={index} items={items} setAttributes={setAttributes}/>
 
-                                <MediaItem index={index} items={items} item={item} setAttributes={setAttributes}/>
-                                <ContentItem index={index} items={items} item={item} setAttributes={setAttributes}/>
-                            </div>
-                        ))}
+                                    <MediaItem index={index} items={items} item={item} setAttributes={setAttributes}/>
+                                    <ContentItem index={index} items={items} item={item} setAttributes={setAttributes}/>
+                                </div>
+                            ))}
+                        </ReactSortable>
                     </div>
                 </div>
             </>
