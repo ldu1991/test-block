@@ -14,24 +14,16 @@
 		"id": {
 			"type": "string"
 		},
-		"startingText": {
-			"type": "string",
-			"default": "Save the file, and you can now move on to the Editor."
-		},
-		"image": {
-			"type": "integer"
-		},
-		"title": {
-			"type": "string",
-			"default": "Robust features to achieve any commercial service"
-		},
-		"content": {
-			"type": "string",
-			"default": "Manage the delivery of contracted preventative maintenance and inspection work"
-		},
 		"items": {
 			"type": "array",
-			"default": []
+			"default": [
+				{
+					"image": 0,
+					"imageUrl": "",
+					"title": "",
+					"content": ""
+				}
+			]
 		}
 	},
 	"supports": {

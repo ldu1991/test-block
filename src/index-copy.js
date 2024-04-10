@@ -3,16 +3,23 @@ import {BlockControls, useBlockProps} from '@wordpress/block-editor';
 import {registerBlockType} from '@wordpress/blocks';
 import {useEffect, useState} from '@wordpress/element';
 import {ToolbarButton} from '@wordpress/components';
-import {ToolbarItem, MediaItem, ContentItem, Icon} from './components'
+import {ToolbarItem, MediaItem, ContentItem} from './item-components'
 
 import './editor.scss';
 import './style.scss';
 
 import metadata from './block.json';
 
+const icon = (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path
+            d="M260.4 254.9 131.5 33.1a2.2 2.2 0 0 0 -3.8 0L.3 254.9A2.2 2.2 0 0 0 .3 257.1L129.1 478.9a2.2 2.2 0 0 0 3.8 0L260.4 257.1A2.2 2.2 0 0 0 260.4 254.9zm39.1-25.7a2.2 2.2 0 0 0 1.9 1.1h66.5a2.2 2.2 0 0 0 1.9-3.3L259.1 33.1a2.2 2.2 0 0 0 -1.9-1.1H190.7a2.2 2.2 0 0 0 -1.9 3.3zM511.7 254.9 384.9 33.1A2.2 2.2 0 0 0 383 32h-66.6a2.2 2.2 0 0 0 -1.9 3.3L440.7 256 314.5 476.7a2.2 2.2 0 0 0 1.9 3.3h66.6a2.2 2.2 0 0 0 1.9-1.1L511.7 257.1A2.2 2.2 0 0 0 511.7 254.9zM366 284.9H299.5a2.2 2.2 0 0 0 -1.9 1.1l-108.8 190.6a2.2 2.2 0 0 0 1.9 3.3h66.5a2.2 2.2 0 0 0 1.9-1.1l108.8-190.6A2.2 2.2 0 0 0 366 284.9z"/>
+    </svg>
+);
+
 
 registerBlockType(metadata.name, {
-    icon: Icon,
+    icon: icon,
     edit: ({clientId, attributes, setAttributes}) => {
         const {anchor, items} = attributes;
         const blockId = `block-${clientId}`;
@@ -22,11 +29,14 @@ registerBlockType(metadata.name, {
 
         }, []);
 
-        const [state, setState] = useState(items);
-
         let blockProps = useBlockProps({
             className: ['alignfull'],
         });
+
+        const [useItem, setItem] = useState(items);
+
+        //console.log(wp.data.select( 'core/rich-text' ).getFormatTypes())
+
 
         return (
             <>
