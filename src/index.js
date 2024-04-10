@@ -53,6 +53,7 @@ registerBlockType(metadata.name, {
                         <ReactSortable
                             list={state}
                             setList={setState}
+                            handle=".wp-block-tt-test-block__item-toolbar-drag-handle"
                             draggable=".wp-block-tt-test-block__item"
                             direction="vertical"
                             onChange={(evt) => {console.log(evt)}}
