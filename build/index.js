@@ -247,10 +247,11 @@ __webpack_require__.r(__webpack_exports__);
       items
     } = attributes;
     const blockId = `block-${clientId}`;
-    setAttributes({
-      id: anchor || blockId
-    });
-    (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {}, []);
+    (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
+      setAttributes({
+        id: anchor || blockId
+      });
+    }, []);
     const [state, setState] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useState)(items);
     let blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
       className: ['alignfull']
@@ -275,18 +276,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       ...blockProps
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "wp-block-tt-test-block__wrap"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_sortablejs__WEBPACK_IMPORTED_MODULE_7__.ReactSortable, {
-      list: state,
-      setList: setState,
+      className: "wp-block-tt-test-block__wrap",
+      list: items,
+      setList: newState => setAttributes({
+        items: newState
+      }),
       handle: ".wp-block-tt-test-block__item-toolbar-drag-handle",
       draggable: ".wp-block-tt-test-block__item",
-      direction: "vertical",
-      onChange: evt => {
-        console.log(evt);
-      }
-    }, state.map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      direction: "vertical"
+    }, items.map((item, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       key: index,
       className: "wp-block-tt-test-block__item"
     }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components__WEBPACK_IMPORTED_MODULE_6__.ToolbarItem, {
@@ -303,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
       items: items,
       item: item,
       setAttributes: setAttributes
-    })))))));
+    }))))));
   }
 });
 

@@ -4,7 +4,7 @@ import {registerBlockType} from '@wordpress/blocks';
 import {useEffect, useState} from '@wordpress/element';
 import {ToolbarButton} from '@wordpress/components';
 import {ToolbarItem, MediaItem, ContentItem, Icon} from './components'
-import { ReactSortable } from "react-sortablejs";
+import {ReactSortable} from "react-sortablejs";
 
 import './editor.scss';
 import './style.scss';
@@ -17,10 +17,9 @@ registerBlockType(metadata.name, {
     edit: ({clientId, attributes, setAttributes}) => {
         const {anchor, items} = attributes;
         const blockId = `block-${clientId}`;
-        setAttributes({id: anchor || blockId});
 
         useEffect(() => {
-
+            setAttributes({id: anchor || blockId});
         }, []);
 
         const [state, setState] = useState(items);
@@ -49,25 +48,23 @@ registerBlockType(metadata.name, {
                 }
 
                 <div {...blockProps}>
-                    <div className="wp-block-tt-test-block__wrap">
-                        <ReactSortable
-                            list={state}
-                            setList={setState}
-                            handle=".wp-block-tt-test-block__item-toolbar-drag-handle"
-                            draggable=".wp-block-tt-test-block__item"
-                            direction="vertical"
-                            onChange={(evt) => {console.log(evt)}}
-                        >
-                            {state.map((item, index) => (
-                                <div key={index} className="wp-block-tt-test-block__item">
-                                    <ToolbarItem index={index} items={items} setAttributes={setAttributes}/>
+                    <ReactSortable
+                        className="wp-block-tt-test-block__wrap"
+                        list={items}
+                        setList={(newState) => setAttributes({items: newState})}
+                        handle=".wp-block-tt-test-block__item-toolbar-drag-handle"
+                        draggable=".wp-block-tt-test-block__item"
+                        direction="vertical"
+                    >
+                        {items.map((item, index) => (
+                            <div key={index} className="wp-block-tt-test-block__item">
+                                <ToolbarItem index={index} items={items} setAttributes={setAttributes}/>
 
-                                    <MediaItem index={index} items={items} item={item} setAttributes={setAttributes}/>
-                                    <ContentItem index={index} items={items} item={item} setAttributes={setAttributes}/>
-                                </div>
-                            ))}
-                        </ReactSortable>
-                    </div>
+                                <MediaItem index={index} items={items} item={item} setAttributes={setAttributes}/>
+                                <ContentItem index={index} items={items} item={item} setAttributes={setAttributes}/>
+                            </div>
+                        ))}
+                    </ReactSortable>
                 </div>
             </>
         );
